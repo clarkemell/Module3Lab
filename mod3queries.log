@@ -1,0 +1,185 @@
+mysql> source Module3_setup.sql;
+Query OK, 1 row affected (0.02 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> USE northern_grounds;
+Database changed
+mysql> SHOW TABLES;
++----------------------------+
+| Tables_in_northern_grounds |
++----------------------------+
+| Drink                      |
+| Purchase                   |
+| Shop                       |
++----------------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * fron drink
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fron drink' at line 1
+mysql> select * from Drink;
++---------+-------------+-------+--------+
+| DrinkID | DrinkName   | Price | ShopID |
++---------+-------------+-------+--------+
+|       1 | Drip Coffee |  2.50 |      1 |
+|       2 | Latte       |  4.00 |      1 |
+|       3 | Cold Brew   |  3.75 |      2 |
+|       4 | Mocha       |  4.50 |      2 |
+|       5 | Chai Latte  |  4.25 |      3 |
+|       6 | Americano   |  3.00 |      3 |
++---------+-------------+-------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select DrinkName, Price from Drink
+    -> select DrinkName, Price from Drink;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select DrinkName, Price from Drink' at line 2
+mysql> select DrinkName, Price from Drink;
++-------------+-------+
+| DrinkName   | Price |
++-------------+-------+
+| Drip Coffee |  2.50 |
+| Latte       |  4.00 |
+| Cold Brew   |  3.75 |
+| Mocha       |  4.50 |
+| Chai Latte  |  4.25 |
+| Americano   |  3.00 |
++-------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT DrinkName, Price FROM Drink WHERE Price > 4.00;
++------------+-------+
+| DrinkName  | Price |
++------------+-------+
+| Mocha      |  4.50 |
+| Chai Latte |  4.25 |
++------------+-------+
+2 rows in set (0.01 sec)
+
+mysql> select * from Purchase 
+    -> Where Quanity > 10;
+ERROR 1054 (42S22): Unknown column 'Quanity' in 'where clause'
+mysql> select * from Purchase 
+    -> where Quantity > 10;
++------------+---------+--------------+----------+
+| PurchaseID | DrinkID | PurchaseDate | Quantity |
++------------+---------+--------------+----------+
+|          1 |       1 | 2026-06-01   |       12 |
+|          3 |       2 | 2026-06-01   |       15 |
+|          5 |       4 | 2026-06-02   |       20 |
+|          8 |       6 | 2026-06-02   |       14 |
++------------+---------+--------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT DrinkName, Price FROM Drink ORDER BY Price DESC;
++-------------+-------+
+| DrinkName   | Price |
++-------------+-------+
+| Mocha       |  4.50 |
+| Chai Latte  |  4.25 |
+| Latte       |  4.00 |
+| Cold Brew   |  3.75 |
+| Americano   |  3.00 |
+| Drip Coffee |  2.50 |
++-------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT DrinkName, Price FROM Drink ORDER BY Price ASC;
++-------------+-------+
+| DrinkName   | Price |
++-------------+-------+
+| Drip Coffee |  2.50 |
+| Americano   |  3.00 |
+| Cold Brew   |  3.75 |
+| Latte       |  4.00 |
+| Chai Latte  |  4.25 |
+| Mocha       |  4.50 |
++-------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT SUM(Quantity) FROM Purchase;
++---------------+
+| SUM(Quantity) |
++---------------+
+|            93 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(Price) FROM Drink;
++------------+
+| AVG(Price) |
++------------+
+|   3.666667 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM Drink;
++----------+
+| COUNT(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) as TotalDrinks  FROM Drink;
++-------------+
+| TotalDrinks |
++-------------+
+|           6 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) as TotalPurchases from Purchase;
++----------------+
+| TotalPurchases |
++----------------+
+|              8 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DrinkID, SUM(Quantity) AS TotalSold FROM Purchase GROUP BY DrinkID;
++---------+-----------+
+| DrinkID | TotalSold |
++---------+-----------+
+|       1 |        20 |
+|       2 |        15 |
+|       3 |        10 |
+|       4 |        20 |
+|       5 |        14 |
+|       6 |        14 |
++---------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select ShopID, count(*) from Drink
+    -> Group by ShopID;
++--------+----------+
+| ShopID | count(*) |
++--------+----------+
+|      1 |        2 |
+|      2 |        2 |
+|      3 |        2 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> notee;
