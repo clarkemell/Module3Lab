@@ -1,0 +1,54 @@
+mysql> SELECT ShopID, COUNT(___) AS NumberOfDrinks
+    -> FROM Drink
+    -> n
+    -> select ShopID, count(*) as NumberOfDrinks from Drink group by
+    -> ShopID, count(*) as NumberOfDrinks from Drink group by DrinkName;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select ShopID, count(*) as NumberOfDrinks from Drink group by
+ShopID, count(*) a' at line 4
+mysql> select ShopID, count(*) as NumberofDrinks
+    -> from Drink
+    -> Group by DrinkName;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'northern_grounds.Drink.ShopID' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> Select ShopID, count(*) as NumberofDrinks
+    -> from Drink;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'northern_grounds.Drink.ShopID'; this is incompatible with sql_mode=only_full_group_by
+mysql> Terminal close -- exit!
+Aborted
+mysql> select ShopID, count(*) as NumberofDrinks
+    -> from Drink
+    -> group by ShopID;
++--------+----------------+
+| ShopID | NumberofDrinks |
++--------+----------------+
+|      1 |              2 |
+|      2 |              2 |
+|      3 |              2 |
++--------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select round((avg(Price), 2) as AveragePrice
+    -> from Drink;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Drink' at line 2
+mysql> select round(avg(Price), 2) as AveragePrice
+    -> from Drink;
++--------------+
+| AveragePrice |
++--------------+
+|         3.67 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select count() as LargeOrders
+    -> from Purchase
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') as LargeOrders
+from Purchase' at line 1
+mysql> select count(PurchaseID) as LargeOrders from Purchase where Quantity > 5;
++-------------+
+| LargeOrders |
++-------------+
+|           7 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> notee;
