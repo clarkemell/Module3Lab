@@ -1,0 +1,175 @@
+mysql> SHOW TABLES;
+ERROR 1046 (3D000): No database selected
+mysql> USE fitness studio
+ERROR 1049 (42000): Unknown database 'fitness'
+mysql> USE fitness studio;
+ERROR 1049 (42000): Unknown database 'fitness'
+mysql> USE fitness_studio;
+ERROR 1049 (42000): Unknown database 'fitness_studio'
+mysql> sudo mysql
+    -> 
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sudo mysql' at line 1
+mysql> Delimiter $$
+mysql> create function Membertier(Attended INT)
+    -> returns varchar(10)
+    -> deterministic
+    -> begin
+    -> declare tier varchar(10);
+    -> if Attended >= 30 then
+    ->   set Tier = 'Gold';
+    -> elseif attened >= 10 then
+    ->   set tier = 'Silver'
+    -> else
+    ->   set Tier = 'Bronze';
+    -> end if;
+    -> return Tier;
+    -> end $$
+ERROR 1046 (3D000): No database selected
+mysql> USE fitness_studio
+ERROR 1049 (42000): Unknown database 'fitness_studio'
+mysql> source Module6_setup.sql
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> USE fitness_studio;
+ERROR 1049 (42000): Unknown database 'fitness_studio;'
+mysql> SHOW DATABASES;
+    -> 
+    -> $$
++--------------------+
+| Database           |
++--------------------+
+| fitness_studio     |
+| information_schema |
+| mysql              |
+| northern_grounds   |
+| performance_schema |
+| retro_replay       |
+| sys                |
+| wkrc               |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> Delimiter ;
+mysql> USE fitness_studio;
+Database changed
+mysql> SHOW TABLES
+    -> ;
++--------------------------+
+| Tables_in_fitness_studio |
++--------------------------+
+| Class                    |
+| Member                   |
++--------------------------+
+2 rows in set (0.01 sec)
+
+mysql> Delimiter $$ ;
+mysql> Delimiter $$
+mysql> create function Membertier(Attended INT) returns varchar(10) deterministic begin declare tier varchar(10); if Attended >= 30 then   set Tier = 'Gold'; elseif attened >= 10 then   set tier = 'Silver' else   set Tier = 'Bronze'; end if; return Tier; end$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'else   set Tier = 'Bronze'; end if; return Tier; end' at line 1
+mysql> Delimiter $$
+mysql> mysql> create function Membertier(Attended INT)
+    ->     -> returns varchar(10)
+    ->     -> deterministic
+    ->     -> begin
+    ->     -> declare tier varchar(10);
+    ->     -> if Attended >= 30 then
+    ->     ->   set Tier = 'Gold';
+    ->     -> elseif attened >= 10 then
+    ->     ->   set tier = 'Silver'
+    ->     -> else
+    ->     ->   set Tier = 'Bronze';
+    ->     -> end if;
+    ->     -> return Tier;
+    ->     -> end $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> create function Membertier(Attended INT)
+    -> returns varchar(10)
+    -' at line 1
+mysql> CREATE FUNCTION MemberTier(Attended INT)
+    -> RETURNS VARCHAR(10)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE Tier VARCHAR(10);
+    -> IF Attended >= 30 THEN
+    -> SET Tier = 'Gold';
+    -> ELSEIF Attended >= 10 THEN
+    -> SET Tier = 'Silver';
+    -> ELSE
+    -> SET Tier = 'Bronze';
+    -> END IF;
+    -> RETURN Tier;
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select FirstName, LastName, ClassesAttended, MemberTier(ClassesAttended) as Tier
+    -> from Member;
+    -> 
+    -> DELIMITER $$
++-----------+----------+-----------------+--------+
+| FirstName | LastName | ClassesAttended | Tier   |
++-----------+----------+-----------------+--------+
+| Kayla     | Ortiz    |              32 | Gold   |
+| Dana      | Petrov   |               8 | Bronze |
+| Miguel    | Alvarez  |               2 | Bronze |
++-----------+----------+-----------------+--------+
+3 rows in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELIMITER' at line 1
+mysql> CREATE PROCEDURE SignUpForClass(
+    -> IN p_MemberID INT
+    -> p_ClassID INT,
+    -> )
+    -> BEGIN
+    -> UPDATE Member
+    -> SET ClassesAttended = ClassesAttended + 1
+    -> WHERE MemberID = p_MemberID;
+    -> SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation
+    -> FROM Member
+    -> WHERE MemberID = p_MemberID
+    -> END $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'p_ClassID INT,
+)
+BEGIN
+UPDATE Member
+SET ClassesAttended = ClassesAttended + 1
+W' at line 3
+mysql> DELIMITER ;
+mysql> CALL SignUpForClass(2, 2);
+ERROR 1305 (42000): PROCEDURE fitness_studio.SignUpForClass does not exist
+mysql> select FirstName, LastName, Classes Attended
+    -> from Member
+    -> where MemberID = 2;
+ERROR 1054 (42S22): Unknown column 'Classes' in 'field list'
+mysql> CREATE PROCEDURE SignUpForClass( IN p_MemberID INT IN p_ClassID INT, ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + 1 WHERE MemberID = p_MemberID; SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation FROM Member WHERE MemberID = p_MemberID END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN p_ClassID INT, ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + ' at line 1
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END$$' at line 1
+mysql> Delimiter $$
+mysql> CREATE PROCEDURE SignUpForClass( IN p_MemberID INT IN p_ClassID INT, ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + 1 WHERE MemberID = p_MemberID; SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation FROM Member WHERE MemberID = p_MemberID END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN p_ClassID INT, ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + ' at line 1
+mysql> CREATE PROCEDURE SignUpForClass( IN p_MemberID INT, IN p_ClassID INT ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + 1 WHERE MemberID = p_MemberID; SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation FROM Member WHERE MemberID = p_MemberID END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END' at line 1
+mysql> CREATE PROCEDURE SignUpForClass( IN p_MemberID INT, IN p_ClassID INT ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + 1 WHERE MemberID = p_MemberID; SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation FROM Member WHERE MemberID = p_MemberID END $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END' at line 1
+mysql> CREATE PROCEDURE SignUpForClass( IN p_MemberID INT, IN p_ClassID INT ) BEGIN UPDATE Member SET ClassesAttended = ClassesAttended + 1 WHERE MemberID = p_MemberID; SELECT CONCAT(FirstName, ' ', LastName, ' is now signed up!') AS Confirmation FROM Member WHERE MemberID = p_MemberID;  END $$
+Query OK, 0 rows affected (0.00 sec)
+
